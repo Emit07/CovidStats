@@ -25,38 +25,38 @@
             </p>
             <div class="panel-block">
               <h1 class="control">
-                Country: {{ data.data.All.country }}
+                Country: {{ data?.All?.country }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Population: {{ parse(data.data.All.population) }}
+                Population: {{ parse(data?.All?.population) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Confirmed Cases: {{ parse(data.data.All.confirmed) }}
+                Confirmed Cases: {{ parse(data?.All?.confirmed) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Deaths: {{ parse(data.data.All.deaths) }}
+                Deaths: {{ parse(data?.All?.deaths) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Death Percent: {{ Math.round((data.data.All.deaths / data.data.All.confirmed*100) * 100) / 100 }}
+                Death Percent: {{ Math.round((data?.All?.deaths / data?.All?.confirmed*100) * 100) / 100 }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Recovered: {{ parse(data.data.All.recovered) }}
+                Recovered: {{ parse(data?.All?.recovered) }}
               </h1>
             </div>
           </nav>
         </div>
     </div>
-    {{ error }}
+    <div class="show">{{ error }}</div>
   </div>
 </template>
 
@@ -64,25 +64,28 @@
 import axios from 'axios';
 
 export default {
-  methods: {
-    submit: function() {
-      axios(`https://covid-api.mmediagroup.fr/v1/cases?country=${this.country}`)
-      .then(res => (this.data = res))
-      .catch(error => this.error = error)
-      this.show = true;
-    },
-    parse: function(value) {
-      return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  data() {
+    return {
+        country: '',
+        data: null,
+        show: false,
+        error: ''
     }
   },
-  data() {
-      return {
-          country: '',
-          data: {},
-          show: false,
-          error: ''
-      }
+  methods: {
+    submit: function() {
+      this.country = this.country.charAt(0).toUpperCase() + this.country.slice(1).toLowerCase();
+      console.log(this.country);
+      axios(`https://covid-api.mmediagroup.fr/v1/cases?country=${this.country}`)
+      .then(res => (this.data = res.data))
+      .catch(error => (this.error = error))
+      this.show = true;
+      
+    },
+    parse: function(value) {
+      return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
+  }
 }
 </script>
 
