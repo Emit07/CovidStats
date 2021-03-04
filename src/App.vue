@@ -14,7 +14,7 @@
   min-height: 100vh;
   max-height: 120vh;
   color: #2c3e50;
-  margin: 60px;
+  margin-top: 60px;
 }
 
 </style>
