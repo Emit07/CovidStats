@@ -2,6 +2,8 @@
 
 This is a a Vue App that will give you statistics about covid from the [COVID-19 api](https://github.com/javieraviles/covidAPI). This project was made so I could learn about Vue.
 
+You can go take a look at the deployed version at [https://covidstatsglobal.vercel.app](https://covidstatsglobal.vercel.app/#/)
+
 ## What was Used?
 
 * `Vue.js` (JS)
