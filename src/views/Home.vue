@@ -25,32 +25,37 @@
             </p>
             <div class="panel-block">
               <h1 class="control">
-                Country: {{ data?.All?.country }}
+                Country: {{ data?.country }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Population: {{ parse(data?.All?.population) }}
+                Confirmed Cases: {{ parse(data?.cases) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Confirmed Cases: {{ parse(data?.All?.confirmed) }}
+                Active Cases: {{ parse(data?.active) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Deaths: {{ parse(data?.All?.deaths) }}
+                Recovered: {{ parse(data?.recovered) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Death Percent: {{ Math.round((data?.All?.deaths / data?.All?.confirmed*100) * 100) / 100 }}
+                Deaths: {{ parse(data?.deaths) }}
               </h1>
             </div>
             <div class="panel-block">
               <h1 class="control">
-                Recovered: {{ parse(data?.All?.recovered) }}
+                Death Percent: {{ Math.round((data?.deaths / data?.cases*100) * 100) / 100 }}
+              </h1>
+            </div>
+            <div class="panel-block">
+              <h1 class="control">
+                Recovered: {{ parse(data?.recovered) }}
               </h1>
             </div>
           </nav>
@@ -76,11 +81,12 @@ export default {
     submit: function() {
       this.country = this.country.charAt(0).toUpperCase() + this.country.slice(1).toLowerCase();
       console.log(this.country);
-      axios(`https://covid-api.mmediagroup.fr/v1/cases?country=${this.country}`)
+      axios(`https://coronavirus-19-api.herokuapp.com/countries/${this.country}`)
       .then(res => (this.data = res.data))
       .catch(error => (this.error = error))
+
       this.show = true;
-      
+
     },
     parse: function(value) {
       return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
